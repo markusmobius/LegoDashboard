@@ -2,6 +2,13 @@
 """
 Lego Dashboard Backend Server
 Generates simulated news action data and serves it via REST API
+
+Example usage: 
+# Get list of all publishers
+curl http://localhost:8080/api/publishers
+
+# Get all available dates
+curl http://localhost:8080/api/dates
 """
 
 import json
