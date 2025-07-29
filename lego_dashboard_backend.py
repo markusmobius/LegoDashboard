@@ -12,13 +12,13 @@ curl http://localhost:8080/api/dates
 
 Remember to quote the URL if using a shell that interprets special characters.
 # Get all actions for July 26, 2025
-"curl http://localhost:8080/api/topactions?date=2025-07-26"
+curl "http://localhost:8080/api/topactions?date=2025-07-26"
 
 # Get actions filtered by Republican publishers
-curl http://localhost:8080/api/topactions?date=2025-07-26&group=Republican
+curl "http://localhost:8080/api/topactions?date=2025-07-26&group=Republican"
 
 # Get actions for a specific publisher
-curl http://localhost:8080/api/topactions?date=2025-07-26&publisher=pub_dem_0
+curl "http://localhost:8080/api/topactions?date=2025-07-26&publisher=pub_dem_0"
 """
 
 import json
