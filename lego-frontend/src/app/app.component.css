@@ -1,0 +1,157 @@
+.app-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-tab {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+.nav-tab.active {
+  background: #1976d2;
+  color: white;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.add-panel-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-panel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dashboard-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.dashboard-container.split-screen {
+  gap: 1px;
+  background: #ddd;
+}
+
+.panel {
+  flex: 1;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.close-panel-btn {
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.close-panel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.panel-content {
+  flex: 1;
+  padding: 2rem;
+  overflow: auto;
+}
+
+.date-picker-container {
+  margin-bottom: 2rem;
+}
+
+.date-picker-container mat-form-field {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Fix faint date picker text */
+.date-picker-container mat-form-field .mat-mdc-input-element {
+  color: #333 !important;
+  font-weight: 500;
+}
+
+.date-picker-container .mat-mdc-form-field-input-control input {
+  color: #333 !important;
+  font-weight: 500;
+}
+
+/* Also ensure the label is visible */
+.date-picker-container .mdc-floating-label {
+  color: #666 !important;
+}
+
+.dashboard-placeholder {
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.dashboard-placeholder p {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-container.split-screen {
+    flex-direction: column;
+  }
+  
+  .nav-tabs {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .top-nav {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+}
