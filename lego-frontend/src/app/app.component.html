@@ -40,9 +40,17 @@
             </mat-form-field>
           </div>
           
-          <!-- Placeholder for future dashboard content -->
-          <div class="dashboard-placeholder">
-            <p>TODO: Actions on date: {{ panel.selectedDate | date:'mediumDate' }}</p>
+          <!-- Simple actions display -->
+          <div class="actions-list">
+            <h3>Actions ({{ panel.actions.length }})</h3>
+            <div *ngFor="let action of panel.actions" class="action-item">
+              <p><strong>{{ action.Description }}</strong></p>
+              <p>Coverage: {{ action.coverage | number:'1.3-3' }}</p>
+              <p>Leaning: {{ action.Republican | number:'1.3-3' }}</p>
+              <p>Support: {{ action.agreement[0] | number:'1.3-3' }}, 
+                 Neutral: {{ action.agreement[1] | number:'1.3-3' }}, 
+                 Oppose: {{ action.agreement[2] | number:'1.3-3' }}</p>
+            </div>
           </div>
         </div>
       </div>

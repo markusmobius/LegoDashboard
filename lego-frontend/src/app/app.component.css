@@ -138,6 +138,23 @@
   color: #666;
 }
 
+.actions-list {
+  margin-top: 1rem;
+}
+
+.action-item {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.action-item p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .dashboard-container.split-screen {

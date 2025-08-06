@@ -1,21 +1,25 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DashboardService, Action } from './services/dashboard.service';
 
 interface Panel {
   id: string;
   selectedDate: Date | null;
+  actions: Action[];
 }
 
 @Component({
   selector: 'app-root',
   imports: [
-    CommonModule, 
+    CommonModule,
+    HttpClientModule,
     MatDatepickerModule, 
     MatInputModule, 
     MatFormFieldModule, 
@@ -28,11 +32,15 @@ interface Panel {
 })
 export class AppComponent {
   panels = signal<Panel[]>([
-    { id: 'panel-1', selectedDate: new Date() }
+    { id: 'panel-1', selectedDate: new Date(), actions: [] }
   ]);
 
   // Computed signal to determine if split screen is active
   isSplitScreen = computed(() => this.panels().length > 1);
+
+  constructor(private dashboardService: DashboardService) {
+    this.loadActions('panel-1');
+  }
 
   addPanel(): void {
     if (this.panels().length < 2) {
@@ -41,11 +49,13 @@ export class AppComponent {
       
       const newPanel: Panel = {
         id: `panel-2`,
-        selectedDate: currentDate // Copy the date from the first panel
+        selectedDate: currentDate,
+        actions: []
       };
       
       // Use update to add new panel
       this.panels.update(currentPanels => [...currentPanels, newPanel]);
+      this.loadActions('panel-2');
     }
   }
 
@@ -57,7 +67,8 @@ export class AppComponent {
       );
       // Reset index to panel-1 for the remaining panel (debug problem of deleting panel-2 causes mulitple deletion)
       const currentDate = this.panels()[0].selectedDate;
-      this.panels.update(currentPanels => [{id:'panel-1', selectedDate: currentDate}]);
+      this.panels.update(currentPanels => [{id:'panel-1', selectedDate: currentDate, actions: []}]);
+      this.loadActions('panel-1');
     }
   }
 
@@ -70,5 +81,30 @@ export class AppComponent {
           : panel
       )
     );
+    
+    this.loadActions(panelId);
+  }
+
+  private loadActions(panelId: string): void {
+    const panel = this.panels().find(p => p.id === panelId);
+    if (!panel?.selectedDate) return;
+
+    const dateString = panel.selectedDate.toISOString().split('T')[0];
+    
+    this.dashboardService.getTopActions(dateString).subscribe({
+      next: (actions) => {
+        console.log('Received actions:', actions);
+        this.panels.update(currentPanels => 
+          currentPanels.map(p => 
+            p.id === panelId 
+              ? { ...p, actions }
+              : p
+          )
+        );
+      },
+      error: (error) => {
+        console.error('Error loading actions:', error);
+      }
+    });
   }
 }
