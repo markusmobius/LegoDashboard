@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Action {
-  Description: string;    // Capitalized to match backend
-  Republican: number;     // Backend sends 'Republican' not 'score'
-  coverage: number;       // Backend sends 'coverage' not 'coverage_share'
-  agreement: number[];    // Backend sends array [support, neutral, oppose]
+  Description: string;   
+  Republican: number;    
+  coverage: number;       
+  agreement: number[];    
 }
 
 @Injectable({

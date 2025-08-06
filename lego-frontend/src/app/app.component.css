@@ -142,21 +142,128 @@
   margin-top: 1rem;
 }
 
+/* Actions container */
+.actions-container {
+  margin-top: 1rem;
+}
+
+.actions-container h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Action item structure */
 .action-item {
-  padding: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* First subrow: Action description */
+.action-description {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+/* Second subrow: Visual bars */
+.action-bars {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  height: 24px;
+}
+
+/* Coverage section (1/3 width) */
+.coverage-section {
+  flex: 1; /* Takes 1/3 of available space */
+  display: flex;
+  align-items: center;
+}
+
+.coverage-bar-container {
+  width: 100%;
+  height: 20px;
+  background: #f0f0f0; /* Darker background for contrast */
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer; /* Show it's interactive for tooltip */
+}
+
+.coverage-bar {
+  height: 100%;
+  /* For visiblity - from light gray to darker gray */
+  background: linear-gradient(90deg, #d0d0d0 0%, #b0b0b0 50%, #a0a0a0 100%);
+  border-right: 1px solid #888;
+  transition: width 0.3s ease;
+  /* Add subtle shadow for more depth */
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* SNO section (2/3 width) - Fixed width bars */
+.sno-section {
+  flex: 2; /* Takes 2/3 of available space */
+}
+
+.sno-bar-container {
+  height: 20px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #f9f9f9;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  width: 100%; /* Fixed width - always fills its container */
 }
 
-.action-item p {
-  margin: 0.25rem 0;
-  font-size: 0.9rem;
+/* SNO segments */
+.sno-segment {
+  height: 100%;
+  transition: width 0.3s ease;
+  cursor: pointer; /* Show it's interactive for tooltip */
+  min-width: 1px; /* Ensure very small segments are still visible */
 }
 
-/* Responsive adjustments */
+.sno-segment.support {
+  background: linear-gradient(90deg, #4caf50 0%, #66bb6a 100%);
+}
+
+.sno-segment.neutral {
+  background: linear-gradient(90deg, #9e9e9e 0%, #bdbdbd 100%);
+}
+
+.sno-segment.oppose {
+  background: linear-gradient(90deg, #f44336 0%, #ef5350 100%);
+}
+
+/* Hover effects for better tooltip interaction */
+.coverage-bar-container:hover .coverage-bar {
+  opacity: 0.8;
+}
+
+.sno-segment:hover {
+  opacity: 0.8;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
+  .action-bars {
+    flex-direction: column;
+    height: auto;
+    gap: 8px;
+  }
+  
+  .coverage-section,
+  .sno-section {
+    flex: none;
+    width: 100%;
+  }
+  
   .dashboard-container.split-screen {
     flex-direction: column;
   }

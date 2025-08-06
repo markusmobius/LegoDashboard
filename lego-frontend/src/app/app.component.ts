@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip'; // Add this
 import { DashboardService, Action } from './services/dashboard.service';
 
 interface Panel {
@@ -25,7 +26,8 @@ interface Panel {
     MatFormFieldModule, 
     MatNativeDateModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -40,6 +42,14 @@ export class AppComponent {
 
   constructor(private dashboardService: DashboardService) {
     this.loadActions('panel-1');
+  }
+
+  // Calculate coverage bar width relative to the highest coverage in the panel
+  getCoverageWidth(coverage: number, allActions: Action[]): number {
+    if (!allActions || allActions.length === 0) return 0;
+    
+    const maxCoverage = Math.max(...allActions.map(action => action.coverage));
+    return maxCoverage > 0 ? (coverage / maxCoverage) * 100 : 0;
   }
 
   addPanel(): void {
@@ -95,6 +105,7 @@ export class AppComponent {
       next: (actions) => {
         console.log('Received actions:', actions);
         this.panels.update(currentPanels => 
+          // Update only the target panel and leaving others unchanged
           currentPanels.map(p => 
             p.id === panelId 
               ? { ...p, actions }
