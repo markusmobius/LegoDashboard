@@ -199,11 +199,11 @@
 
 .coverage-bar {
   height: 100%;
-  /* For visiblity - from light gray to darker gray */
-  background: linear-gradient(90deg, #d0d0d0 0%, #b0b0b0 50%, #a0a0a0 100%);
-  border-right: 1px solid #888;
+  /* Yellow gradient for visibility */
+  background: linear-gradient(90deg, #fff176 0%, #ffeb3b 50%, #fdd835 100%);
+  border-right: 1px solid #f57f17;
   transition: width 0.3s ease;
-  /* Add subtle shadow for more depth */
+  /* Add shadow for depth */
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
 
@@ -241,9 +241,10 @@
   background: linear-gradient(90deg, #f44336 0%, #ef5350 100%);
 }
 
-/* Hover effects for better tooltip interaction */
 .coverage-bar-container:hover .coverage-bar {
   opacity: 0.8;
+  /* Darker yellow on hover */
+  background: linear-gradient(90deg, #ffeb3b 0%, #fdd835 50%, #f57f17 100%) !important;
 }
 
 .sno-segment:hover {
