@@ -7,39 +7,6 @@
   background: #f5f5f5;
 }
 
-.top-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: #f5f5f5;
-  border-bottom: 1px solid #ddd;
-}
-
-.nav-tabs {
-  display: flex;
-  gap: 1rem;
-}
-
-.nav-tab {
-  padding: 0.5rem 1rem;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-weight: 500;
-  border-radius: 4px;
-}
-
-.nav-tab.active {
-  background: #1976d2;
-  color: white;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-}
-
 .add-panel-btn {
   display: flex;
   align-items: center;
@@ -135,43 +102,7 @@ mat-list[dense] .mat-mdc-list-item {
   color: #666 !important;
 }
 
-.dashboard-placeholder {
-  padding: 2rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.dashboard-placeholder p {
-  margin: 0.5rem 0;
-  color: #666;
-}
-
-.actions-list {
-  margin-top: 1rem;
-}
-
-/* Actions container */
-.actions-container {
-  margin-top: 1rem;
-}
-
-.actions-container h3 {
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-/* Action item structure */
-.action-item {
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  background: white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-/* First subrow: Action description */
+/* Action description */
 .action-description {
   font-weight: 500;
   color: #333;
@@ -180,12 +111,12 @@ mat-list[dense] .mat-mdc-list-item {
   margin-bottom: 8px; /* Space between text and bars */
 }
 
-/* Second subrow: Visual bars */
+/* Visual bars */
 .action-bars {
   display: flex;
   gap: 12px;
   align-items: center;
-  height: 20px; /* Keep bar height as requested */
+  height: 20px;
   width: 100%;
 }
 

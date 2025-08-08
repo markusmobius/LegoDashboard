@@ -52,49 +52,52 @@
               *ngFor="let action of panel.actions"
               lines="2">
               
-              <!-- First line: Action description -->
-              <div matListItemTitle class="action-description">
-                {{ action.Description }}
-              </div>
-              
-              <!-- Second line: Visual bars -->
-              <div matListItemLine class="action-bars">
-                <!-- Coverage bar section (1/3 width) -->
-                <div class="coverage-section">
-                  <div 
-                    class="coverage-bar-container"
-                    [matTooltip]="'Coverage: ' + (action.coverage | number:'1.2-2')"
-                    matTooltipPosition="above">
-                    <div 
-                      class="coverage-bar"
-                      [style.width.%]="getCoverageWidth(action.coverage, panel.actions)">
-                    </div>
-                  </div>
+              <!-- Wrapper to control layout of title and bars -->
+              <div class="action-content-wrapper">
+                <!-- First line: Action description -->
+                <div class="action-description">
+                  {{ action.Description }}
                 </div>
                 
-                <!-- SNO bar section (2/3 width) -->
-                <div class="sno-section">
-                  <div class="sno-bar-container">
-                    <!-- Support segment (green) -->
+                <!-- Second line: Visual bars -->
+                <div class="action-bars">
+                  <!-- Coverage bar section (1/3 width) -->
+                  <div class="coverage-section">
                     <div 
-                      class="sno-segment support"
-                      [style.width.%]="action.agreement[0] * 100"
-                      [matTooltip]="'Support: ' + (action.agreement[0] | percent:'1.1-1')"
+                      class="coverage-bar-container"
+                      [matTooltip]="'Coverage: ' + (action.coverage | number:'1.2-2')"
                       matTooltipPosition="above">
+                      <div 
+                        class="coverage-bar"
+                        [style.width.%]="getCoverageWidth(action.coverage, panel.actions)">
+                      </div>
                     </div>
-                    <!-- Neutral segment (gray) -->
-                    <div 
-                      class="sno-segment neutral"
-                      [style.width.%]="action.agreement[1] * 100"
-                      [matTooltip]="'Neutral: ' + (action.agreement[1] | percent:'1.1-1')"
-                      matTooltipPosition="above">
-                    </div>
-                    <!-- Oppose segment (red) -->
-                    <div 
-                      class="sno-segment oppose"
-                      [style.width.%]="action.agreement[2] * 100"
-                      [matTooltip]="'Oppose: ' + (action.agreement[2] | percent:'1.1-1')"
-                      matTooltipPosition="above">
+                  </div>
+                  
+                  <!-- SNO bar section (2/3 width) -->
+                  <div class="sno-section">
+                    <div class="sno-bar-container">
+                      <!-- Support segment (green) -->
+                      <div 
+                        class="sno-segment support"
+                        [style.width.%]="action.agreement[0] * 100"
+                        [matTooltip]="'Support: ' + (action.agreement[0] | percent:'1.1-1')"
+                        matTooltipPosition="above">
+                      </div>
+                      <!-- Neutral segment (gray) -->
+                      <div 
+                        class="sno-segment neutral"
+                        [style.width.%]="action.agreement[1] * 100"
+                        [matTooltip]="'Neutral: ' + (action.agreement[1] | percent:'1.1-1')"
+                        matTooltipPosition="above">
+                      </div>
+                      <!-- Oppose segment (red) -->
+                      <div 
+                        class="sno-segment oppose"
+                        [style.width.%]="action.agreement[2] * 100"
+                        [matTooltip]="'Oppose: ' + (action.agreement[2] | percent:'1.1-1')"
+                        matTooltipPosition="above">
+                      </div>
                     </div>
                   </div>
                 </div>
