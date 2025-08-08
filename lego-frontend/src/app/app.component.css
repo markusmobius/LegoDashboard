@@ -1,8 +1,10 @@
+/* General Layout */
 .app-container {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background: #f5f5f5;
 }
 
 .top-nav {
@@ -42,46 +44,12 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: #009688; /* Teal color */
 }
 
 .add-panel-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-.dashboard-container {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-
-.dashboard-container.split-screen {
-  gap: 1px;
-  background: #ddd;
-}
-
-.panel {
-  flex: 1;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: #fafafa;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.panel-title {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #333;
 }
 
 .close-panel-btn {
@@ -95,10 +63,51 @@
   cursor: not-allowed;
 }
 
+.dashboard-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.dashboard-container.split-screen {
+  gap: 1px;
+  background: #e0e0e0;
+}
+
+.panel {
+  flex: 1;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* New Compact Header */
+.panel-header-compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 8px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #fafafa;
+}
+
+.panel-controls {
+  display: flex;
+  align-items: center;
+}
+
 .panel-content {
   flex: 1;
-  padding: 2rem;
   overflow: auto;
+  padding: 8px 16px;
+}
+
+/* Compact Action List using Material */
+mat-list[dense] .mat-mdc-list-item {
+  height: auto !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
 }
 
 .date-picker-container {
@@ -166,9 +175,9 @@
 .action-description {
   font-weight: 500;
   color: #333;
-  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
   line-height: 1.4;
-  font-size: 0.95rem;
+  margin-bottom: 8px; /* Space between text and bars */
 }
 
 /* Second subrow: Visual bars */
@@ -176,12 +185,13 @@
   display: flex;
   gap: 12px;
   align-items: center;
-  height: 24px;
+  height: 20px; /* Keep bar height as requested */
+  width: 100%;
 }
 
 /* Coverage section (1/3 width) */
 .coverage-section {
-  flex: 1; /* Takes 1/3 of available space */
+  flex: 1;
   display: flex;
   align-items: center;
 }
@@ -189,27 +199,23 @@
 .coverage-bar-container {
   width: 100%;
   height: 20px;
-  background: #f0f0f0; /* Darker background for contrast */
+  background: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 3px;
   overflow: hidden;
-  position: relative;
-  cursor: pointer; /* Show it's interactive for tooltip */
+  cursor: pointer;
 }
 
 .coverage-bar {
   height: 100%;
-  /* Yellow gradient for visibility */
   background: linear-gradient(90deg, #fff176 0%, #ffeb3b 50%, #fdd835 100%);
   border-right: 1px solid #f57f17;
   transition: width 0.3s ease;
-  /* Add shadow for depth */
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
 
-/* SNO section (2/3 width) - Fixed width bars */
+/* SNO section (2/3 width) */
 .sno-section {
-  flex: 2; /* Takes 2/3 of available space */
+  flex: 2;
 }
 
 .sno-bar-container {
@@ -218,65 +224,42 @@
   border-radius: 3px;
   overflow: hidden;
   display: flex;
-  width: 100%; /* Fixed width - always fills its container */
+  width: 100%;
 }
 
-/* SNO segments */
 .sno-segment {
   height: 100%;
   transition: width 0.3s ease;
-  cursor: pointer; /* Show it's interactive for tooltip */
-  min-width: 1px; /* Ensure very small segments are still visible */
+  cursor: pointer;
 }
 
-.sno-segment.support {
-  background: linear-gradient(90deg, #4caf50 0%, #66bb6a 100%);
-}
+.sno-segment.support { background: #4caf50; }
+.sno-segment.neutral { background: #9e9e9e; }
+.sno-segment.oppose { background: #f44336; }
 
-.sno-segment.neutral {
-  background: linear-gradient(90deg, #9e9e9e 0%, #bdbdbd 100%);
-}
-
-.sno-segment.oppose {
-  background: linear-gradient(90deg, #f44336 0%, #ef5350 100%);
-}
-
-.coverage-bar-container:hover .coverage-bar {
-  opacity: 0.8;
-  /* Darker yellow on hover */
-  background: linear-gradient(90deg, #ffeb3b 0%, #fdd835 50%, #f57f17 100%) !important;
-}
-
+/* Hover effects */
+.coverage-bar-container:hover .coverage-bar,
 .sno-segment:hover {
   opacity: 0.8;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .dashboard-container.split-screen {
+    flex-direction: column;
+  }
+  .panel-header-compact {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
   .action-bars {
     flex-direction: column;
     height: auto;
     gap: 8px;
+    align-items: flex-start;
   }
-  
-  .coverage-section,
-  .sno-section {
-    flex: none;
+  .coverage-section, .sno-section {
     width: 100%;
-  }
-  
-  .dashboard-container.split-screen {
-    flex-direction: column;
-  }
-  
-  .nav-tabs {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  
-  .top-nav {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
   }
 }

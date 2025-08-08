@@ -7,7 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip'; // Add this
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatListModule } from '@angular/material/list';
 import { DashboardService, Action } from './services/dashboard.service';
 
 interface Panel {
@@ -20,14 +21,14 @@ interface Panel {
   selector: 'app-root',
   imports: [
     CommonModule,
-    HttpClientModule,
     MatDatepickerModule, 
     MatInputModule, 
     MatFormFieldModule, 
     MatNativeDateModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatListModule 
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

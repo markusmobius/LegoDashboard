@@ -1,14 +1,5 @@
 <main class="main">
   <div class="app-container">
-    <nav class="top-nav">
-      <div class="nav-actions">
-        <button class="add-panel-btn" (click)="addPanel()" [disabled]="panels().length >= 2" mat-button>
-          <mat-icon>add</mat-icon>
-          Add Column
-        </button>
-      </div>
-    </nav>
-
     <div class="dashboard-container" [class.split-screen]="isSplitScreen()">
       <div 
         class="panel" 
@@ -16,19 +7,10 @@
         [class.left-panel]="isSplitScreen() && i === 0"
         [class.right-panel]="isSplitScreen() && i === 1">
         
-        <div class="panel-header">
-          <button 
-            class="close-panel-btn" 
-            (click)="removePanel(panel.id)" 
-            [disabled]="panels().length === 1"
-            mat-icon-button>
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-
-        <div class="panel-content">
+        <!-- New compact panel header -->
+        <div class="panel-header-compact">
           <div class="date-picker-container">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Select Date</mat-label>
               <input 
                 matInput 
@@ -40,18 +22,43 @@
             </mat-form-field>
           </div>
           
-          <!-- Actions with visual bars -->
-          <div class="actions-container">
-            <h3>Actions ({{ panel.actions.length }})</h3>
+          <!-- Panel controls on the right -->
+          <div class="panel-controls">
+            <!-- "Add Column" button with text, shown only for the first panel -->
+            <button 
+              *ngIf="panels().length === 1"
+              (click)="addPanel()" 
+              mat-button
+              class="add-panel-btn">
+              <mat-icon>add</mat-icon>
+              Add Column
+            </button>
             
-            <div class="action-item" *ngFor="let action of panel.actions">
-              <!-- First subrow: Action description -->
-              <div class="action-description">
+            <!-- "Close" icon button, shown only when there are two panels -->
+            <button 
+              *ngIf="panels().length > 1"
+              (click)="removePanel(panel.id)"
+              mat-icon-button
+              matTooltip="Close Column">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-content">
+          <!-- Actions now use a dense mat-list for compactness -->
+          <mat-list dense>
+            <mat-list-item 
+              *ngFor="let action of panel.actions"
+              lines="2">
+              
+              <!-- First line: Action description -->
+              <div matListItemTitle class="action-description">
                 {{ action.Description }}
               </div>
               
-              <!-- Second subrow: Visual bars -->
-              <div class="action-bars">
+              <!-- Second line: Visual bars -->
+              <div matListItemLine class="action-bars">
                 <!-- Coverage bar section (1/3 width) -->
                 <div class="coverage-section">
                   <div 
@@ -65,7 +72,7 @@
                   </div>
                 </div>
                 
-                <!-- SNO bar section (2/3 width) - Fixed width -->
+                <!-- SNO bar section (2/3 width) -->
                 <div class="sno-section">
                   <div class="sno-bar-container">
                     <!-- Support segment (green) -->
@@ -92,8 +99,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </mat-list-item>
+          </mat-list>
         </div>
       </div>
     </div>
