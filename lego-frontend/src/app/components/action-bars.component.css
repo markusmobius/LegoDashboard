@@ -1,0 +1,61 @@
+.action-bars {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  height: 20px;
+  width: 100%;
+}
+
+/* Coverage section (1/3 width) */
+.coverage-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.coverage-bar-container {
+  width: 100%;
+  height: 20px;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.coverage-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #fff176 0%, #ffeb3b 50%, #fdd835 100%);
+  border-right: 1px solid #f57f17;
+  transition: width 0.3s ease;
+}
+
+/* SNO section (2/3 width) */
+.sno-section {
+  flex: 2;
+}
+
+.sno-bar-container {
+  height: 20px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+}
+
+.sno-segment {
+  height: 100%;
+  transition: width 0.3s ease;
+  cursor: pointer;
+}
+
+.sno-segment.support { background: #4caf50; }
+.sno-segment.neutral { background: #9e9e9e; }
+.sno-segment.oppose { background: #f44336; }
+
+/* Hover effects */
+.coverage-bar-container:hover .coverage-bar,
+.sno-segment:hover {
+  opacity: 0.8;
+}

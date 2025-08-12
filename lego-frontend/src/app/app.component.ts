@@ -9,7 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DashboardService, Action } from './services/dashboard.service';
+import { ActionBarsComponent, BarData } from './components/action-bars.component';
+import { ActionDetailModalComponent } from './components/action-detail-modal.component';
 
 interface Panel {
   id: string;
@@ -28,7 +31,9 @@ interface Panel {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    MatListModule 
+    MatListModule,
+    MatDialogModule,
+    ActionBarsComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -41,7 +46,10 @@ export class AppComponent {
   // Computed signal to determine if split screen is active
   isSplitScreen = computed(() => this.panels().length > 1);
 
-  constructor(private dashboardService: DashboardService) {
+  constructor(
+    private dashboardService: DashboardService,
+    private dialog: MatDialog
+  ) {
     this.loadActions('panel-1');
   }
 
@@ -118,5 +126,47 @@ export class AppComponent {
         console.error('Error loading actions:', error);
       }
     });
+  }
+
+  openActionDetail(action: Action): void {
+    // For now using mock data for publishers
+    const mockPublishers = [
+      {
+        name: 'Publisher A',
+        coverage: action.coverage * 0.8,
+        agreement: [action.agreement[0] * 1.1, action.agreement[1] * 0.9, action.agreement[2] * 0.8]
+      },
+      {
+        name: 'Publisher B', 
+        coverage: action.coverage * 0.6,
+        agreement: [action.agreement[0] * 0.7, action.agreement[1] * 1.2, action.agreement[2] * 1.1]
+      },
+      {
+        name: 'Publisher C',
+        coverage: action.coverage * 0.4,
+        agreement: [action.agreement[0] * 0.5, action.agreement[1] * 0.8, action.agreement[2] * 1.4]
+      }
+    ];
+
+    this.dialog.open(ActionDetailModalComponent, {
+      data: {
+        action: action,
+        publishers: mockPublishers
+      },
+      width: '700px',
+      maxWidth: '90vw',
+      maxHeight: '80vh'
+    });
+  }
+
+  getActionBarData(action: Action): BarData {
+    return {
+      coverage: action.coverage,
+      agreement: action.agreement
+    };
+  }
+
+  getAllActionBarData(actions: Action[]): BarData[] {
+    return actions.map(action => this.getActionBarData(action));
   }
 }

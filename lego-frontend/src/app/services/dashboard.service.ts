@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Action {
@@ -7,6 +7,12 @@ export interface Action {
   Republican: number;    
   coverage: number;       
   agreement: number[];    
+}
+
+export interface PublisherAction {
+  Description: string;
+  coverage: number;
+  agreement: number[];
 }
 
 @Injectable({
@@ -23,5 +29,18 @@ export class DashboardService {
       url += `&group=${filter}`;
     }
     return this.http.get<Action[]>(url);
+  }
+
+  getPublisherActions(date: string, publisher: string): Observable<PublisherAction[]> {
+    const params = new HttpParams()
+      .set('date', date)
+      .set('publisher', publisher);
+    
+    return this.http.get<PublisherAction[]>(`${this.baseUrl}/topactions`, { params });
+  }
+
+  // Get all available publishers
+  getPublishers(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/publishers`);
   }
 }
