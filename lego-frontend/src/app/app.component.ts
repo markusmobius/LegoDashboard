@@ -121,7 +121,6 @@ export class AppComponent {
   }
 
   openActionDetail(action: Action): void {
-    // Get the selected date from the first panel (or the panel where the action was clicked)
     const selectedDate = this.panels()[0].selectedDate || new Date();
 
     this.dialog.open(ActionDetailModalComponent, {
@@ -129,9 +128,9 @@ export class AppComponent {
         action: action,
         selectedDate: selectedDate
       },
-      width: '700px',
-      maxWidth: '90vw',
-      maxHeight: '80vh'
+      width: '900px',
+      maxWidth: '95vw', 
+      maxHeight: '90vh' 
     });
   }
 

@@ -1,9 +1,10 @@
 .action-bars {
   display: flex;
-  gap: 12px;
+  gap: 16px; 
   align-items: center;
-  height: 20px;
+  height: 24px;
   width: 100%;
+  min-width: 300px; 
 }
 
 /* Coverage section (1/3 width) */
@@ -11,16 +12,19 @@
   flex: 1;
   display: flex;
   align-items: center;
+  min-width: 80px; 
 }
 
 .coverage-bar-container {
   width: 100%;
-  height: 20px;
+  height: 24px;
   background: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 3px;
   overflow: hidden;
   cursor: pointer;
+  position: relative;
+  min-width: 60px; 
 }
 
 .coverage-bar {
@@ -28,31 +32,47 @@
   background: linear-gradient(90deg, #fff176 0%, #ffeb3b 50%, #fdd835 100%);
   border-right: 1px solid #f57f17;
   transition: width 0.3s ease;
+  min-width: 3px; 
 }
 
 /* SNO section (2/3 width) */
 .sno-section {
   flex: 2;
+  min-width: 160px; 
 }
 
 .sno-bar-container {
-  height: 20px;
+  height: 24px;
   border: 1px solid #ddd;
   border-radius: 3px;
   overflow: hidden;
   display: flex;
   width: 100%;
+  position: relative;
+  min-width: 120px;
 }
 
 .sno-segment {
   height: 100%;
   transition: width 0.3s ease;
   cursor: pointer;
+  min-width: 4px; 
+  position: relative;
 }
 
-.sno-segment.support { background: #4caf50; }
-.sno-segment.neutral { background: #9e9e9e; }
-.sno-segment.oppose { background: #f44336; }
+.sno-segment.support { 
+  background: #4caf50;
+  border-right: 1px solid rgba(255,255,255,0.3);
+}
+
+.sno-segment.neutral { 
+  background: #9e9e9e;
+  border-right: 1px solid rgba(255,255,255,0.3);
+}
+
+.sno-segment.oppose { 
+  background: #f44336;
+}
 
 /* Hover effects */
 .coverage-bar-container:hover .coverage-bar,
