@@ -53,14 +53,6 @@ export class AppComponent {
     this.loadActions('panel-1');
   }
 
-  // Calculate coverage bar width relative to the highest coverage in the panel
-  getCoverageWidth(coverage: number, allActions: Action[]): number {
-    if (!allActions || allActions.length === 0) return 0;
-    
-    const maxCoverage = Math.max(...allActions.map(action => action.coverage));
-    return maxCoverage > 0 ? (coverage / maxCoverage) * 100 : 0;
-  }
-
   addPanel(): void {
     if (this.panels().length < 2) {
       // Get the selected date from the first panel
@@ -129,29 +121,13 @@ export class AppComponent {
   }
 
   openActionDetail(action: Action): void {
-    // For now using mock data for publishers
-    const mockPublishers = [
-      {
-        name: 'Publisher A',
-        coverage: action.coverage * 0.8,
-        agreement: [action.agreement[0] * 1.1, action.agreement[1] * 0.9, action.agreement[2] * 0.8]
-      },
-      {
-        name: 'Publisher B', 
-        coverage: action.coverage * 0.6,
-        agreement: [action.agreement[0] * 0.7, action.agreement[1] * 1.2, action.agreement[2] * 1.1]
-      },
-      {
-        name: 'Publisher C',
-        coverage: action.coverage * 0.4,
-        agreement: [action.agreement[0] * 0.5, action.agreement[1] * 0.8, action.agreement[2] * 1.4]
-      }
-    ];
+    // Get the selected date from the first panel (or the panel where the action was clicked)
+    const selectedDate = this.panels()[0].selectedDate || new Date();
 
     this.dialog.open(ActionDetailModalComponent, {
       data: {
         action: action,
-        publishers: mockPublishers
+        selectedDate: selectedDate
       },
       width: '700px',
       maxWidth: '90vw',
