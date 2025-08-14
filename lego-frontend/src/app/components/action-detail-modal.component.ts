@@ -54,9 +54,7 @@ export class ActionDetailModalComponent implements OnInit {
 
   private loadPublisherData(): void {
     const dateString = this.data.selectedDate.toISOString().split('T')[0];
-    
-    // Generate action ID based on the action's position/properties
-    const actionId = this.generateActionId(this.data.action);
+    const actionId = this.data.action.id;
 
     this.dashboardService.getActionDetails(dateString, actionId).subscribe({
       next: (response: ActionDetailResponse) => {
@@ -75,23 +73,6 @@ export class ActionDetailModalComponent implements OnInit {
         this.loading = false;
       }
     });
-  }
-
-  private generateActionId(action: Action): string {
-    // Generate a consistent action ID based on the action properties
-    const hash = this.simpleHash(action.Description);
-    const actionIndex = hash % 26; // Map to 0-25 range
-    return `action-${String.fromCharCode(97 + actionIndex)}`;
-  }
-
-  private simpleHash(str: string): number {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    return Math.abs(hash);
   }
 
   close(): void {

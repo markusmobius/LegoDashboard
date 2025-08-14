@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Action {
+  id: string;  // Add this id field to enable action selection independent of description
   Description: string;   
   Republican: number;    
   coverage: number;       
@@ -55,7 +56,6 @@ export class DashboardService {
     return this.http.get<PublisherAction[]>(`${this.baseUrl}/topactions`, { params });
   }
 
-  // Get all available publishers
   getPublishers(): Observable<string[]> {
     return this.http.get<string[]>(`${this.baseUrl}/publishers`);
   }

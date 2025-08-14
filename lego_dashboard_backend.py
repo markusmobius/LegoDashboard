@@ -21,7 +21,7 @@ curl "http://localhost:8080/api/topactions?date=2025-07-26&group=Republican"
 curl "http://localhost:8080/api/topactions?date=2025-07-26&publisher=pub_dem_0"
 
 # Get publishers (coverage and support) for a specific action
-curl "http://localhost:8080/api/actions/action-a?date=2025-07-26"  
+curl "http://localhost:8080/api/actions/[action-id]?date=2025-07-26"  
 """
 
 import json
@@ -68,22 +68,25 @@ class LegoDashboardData:
         return values / values.sum()
     
     def _generate_action_data(self, action_idx, coverage, seed):
-        """Generate data for a single action"""
-        random.seed(seed + action_idx)
+        """Generate a single action's data"""
+        action_seed = seed + action_idx * 100
+        random.seed(action_seed)
         
-        # Make half Republican (positive values) and half Democrat (negative values)
-        is_republican = action_idx < 13
+        # Generate action description and Republican score
+        description = f"Action {chr(65 + action_idx)}"  # Action A, Action B, etc.
+        republican_score = random.uniform(-1, 1)
         
-        if is_republican:
-            republican_score = random.uniform(0, 1)
-        else:
-            republican_score = random.uniform(-1, 0)
+        # Generate agreement percentages that sum to 1
+        support = random.uniform(0.2, 0.5)
+        oppose = random.uniform(0.2, 0.5)  
+        neutral = 1.0 - support - oppose
         
         return {
-            'Description': f'Action {chr(65 + action_idx)}',
-            'Republican': round(republican_score, 3),
-            'coverage': round(coverage, 4),
-            'agreement': None  # Will be calculated based on aggregated publisher data
+            'id': f'action-{chr(97 + action_idx)}',  # Add this line: action-a, action-b, etc.
+            'Description': description,
+            'Republican': republican_score,
+            'coverage': coverage,
+            'agreement': [support, neutral, oppose]
         }
     
     def _calculate_agreement_for_publisher(self, publisher, action, seed):
