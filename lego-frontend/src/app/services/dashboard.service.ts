@@ -15,6 +15,22 @@ export interface PublisherAction {
   agreement: number[];
 }
 
+export interface ActionDetailResponse {
+  action: {
+    id: string;
+    description: string;
+    republican_score: number;
+    overall_coverage: number;
+  };
+  publishers: {
+    id: string;
+    name: string;
+    leaning: string;
+    coverage: number;
+    agreement: number[];
+  }[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,5 +58,10 @@ export class DashboardService {
   // Get all available publishers
   getPublishers(): Observable<string[]> {
     return this.http.get<string[]>(`${this.baseUrl}/publishers`);
+  }
+
+  getActionDetails(dateString: string, actionId: string): Observable<ActionDetailResponse> {
+    const params = new HttpParams().set('date', dateString);
+    return this.http.get<ActionDetailResponse>(`${this.baseUrl}/actions/${actionId}`, { params });
   }
 }

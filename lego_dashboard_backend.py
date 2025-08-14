@@ -170,6 +170,51 @@ class LegoDashboardData:
             return [p for p in self.publishers if p['id'] == filter_criteria]
         else:
             return self.publishers
+    
+    def generate_action_publisher_details(self, date_str, action_idx):
+        """Generate detailed publisher data for a specific action"""
+        # Convert date string to seed
+        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+        day_seed = int(date_obj.strftime('%Y%m%d'))
+        
+        # Generate base coverage shares
+        coverage_shares = self._generate_coverage_shares(day_seed)
+        
+        # Generate the specific action
+        action = self._generate_action_data(action_idx, coverage_shares[action_idx], day_seed)
+        
+        # Generate publisher-specific data
+        publisher_details = []
+        
+        for pub in self.publishers:
+            pub_seed = day_seed + hash(pub['id']) + action_idx
+            agreement = self._calculate_agreement_for_publisher(pub, action, pub_seed)
+            
+            # Generate publisher-specific coverage (varies slightly from base)
+            random.seed(pub_seed)
+            coverage_variation = random.uniform(0.8, 1.2)
+            pub_coverage = action['coverage'] * coverage_variation
+            
+            publisher_details.append({
+                'id': pub['id'],
+                'name': pub['name'],
+                'leaning': pub['leaning'],
+                'coverage': round(pub_coverage, 4),
+                'agreement': agreement  # [support, neutral, oppose]
+            })
+        
+        # Sort by coverage (descending)
+        publisher_details.sort(key=lambda x: x['coverage'], reverse=True)
+        
+        return {
+            'action': {
+                'id': f'action-{chr(97 + action_idx)}',  # action-a, action-b, etc.
+                'description': action['Description'],
+                'republican_score': action['Republican'],
+                'overall_coverage': action['coverage']
+            },
+            'publishers': publisher_details
+        }
 
 class LegoDashboardHandler(BaseHTTPRequestHandler):
     data_generator = LegoDashboardData()
@@ -186,8 +231,42 @@ class LegoDashboardHandler(BaseHTTPRequestHandler):
             self.handle_publishers()
         elif path == '/api/dates':
             self.handle_available_dates()
+        elif path.startswith('/api/actions/'):
+            self.handle_action_details(path, query_params)
         else:
             self.send_error(404, 'Not Found')
+    
+    def handle_action_details(self, path, params):
+        """Handle /api/actions/{action_id} endpoint"""
+        # Extract action_id from path (e.g., /api/actions/action-a -> action-a)
+        action_id = path.split('/')[-1].lower()
+        
+        # Convert action_id to action index (action-a -> 0, action-b -> 1, etc.)
+        if action_id.startswith('action-'):
+            action_letter = action_id.split('-')[1]
+            if len(action_letter) == 1 and 'a' <= action_letter <= 'z':
+                action_idx = ord(action_letter) - ord('a')
+                if action_idx < 26:  # Valid action index
+                    # Get date parameter (else, default to 2025-07-26)
+                    date_str = params.get('date', ['2025-07-26'])[0]
+                    
+                    try:
+                        # Generate publisher details for this action
+                        publisher_data = self.data_generator.generate_action_publisher_details(
+                            date_str, action_idx
+                        )
+                        
+                        self.send_response(200)
+                        self.send_header('Content-Type', 'application/json')
+                        self.send_header('Access-Control-Allow-Origin', '*')
+                        self.end_headers()
+                        self.wfile.write(json.dumps(publisher_data, indent=2).encode())
+                        return
+                    except Exception as e:
+                        self.send_error(400, f'Bad Request: {str(e)}')
+                        return
+        
+        self.send_error(404, 'Action not found')
     
     def handle_top_actions(self, params):
         """Handle /api/topactions endpoint"""
@@ -255,6 +334,9 @@ def run_server(port=8080):
     print(f"      Parameters: date (YYYY-MM-DD), publisher (pub_id), group (Republican/Democrat)")
     print(f"  GET http://localhost:{port}/api/publishers")
     print(f"  GET http://localhost:{port}/api/dates")
+    print(f"  GET http://localhost:{port}/api/actions/{{action-id}}")
+    print(f"      Parameters: date (YYYY-MM-DD)")
+    print(f"      Example: /api/actions/action-a")
     print("\nPress Ctrl+C to stop the server")
     
     try:

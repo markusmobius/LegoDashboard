@@ -39,12 +39,37 @@
   border-radius: 4px;
 }
 
+.publisher-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
 .publisher-name {
   min-width: 180px; 
   flex-shrink: 0; 
   font-weight: 500;
   color: #333;
   font-size: 0.9rem;
+  flex: 1;
+}
+
+.publisher-leaning {
+  font-size: 0.8em;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.leaning-republican {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.leaning-democrat {
+  background-color: #e3f2fd;
+  color: #1565c0;
 }
 
 /* Ensure bars take up remaining space */

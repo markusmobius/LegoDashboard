@@ -1,0 +1,57 @@
+<div class="action-detail-modal">
+  <mat-dialog-content>
+    <!-- Action Title -->
+    <div class="action-title">
+      <h2>{{ data.action.Description }}</h2>
+    </div>
+
+    <!-- Overall Action Bars -->
+    <div class="overall-section">
+      <h3>Overall</h3>
+      <app-action-bars 
+        [data]="getOverallBarData()" 
+        [allData]="[]"
+        [scaleToMax]="false">
+      </app-action-bars>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-section" *ngIf="loading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading publisher data...</p>
+    </div>
+
+    <!-- Publishers Section -->
+    <div class="publishers-section" *ngIf="!loading && publisherData.length > 0">
+      <h3>By Publisher (Top {{ Math.min(publisherData.length, 20) }})</h3>
+      
+      <div class="publisher-item" *ngFor="let publisher of publisherData.slice(0, 20)">
+        <div class="publisher-info">
+          <div class="publisher-name">{{ publisher.name }}</div>
+          <div class="publisher-leaning" [class]="'leaning-' + publisher.leaning.toLowerCase()">
+            {{ publisher.leaning }}
+          </div>
+        </div>
+        <app-action-bars 
+          [data]="getPublisherBarData(publisher)" 
+          [allData]="getAllPublisherBarData()"
+          [scaleToMax]="true">
+        </app-action-bars>
+      </div>
+    </div>
+
+    <!-- No Publisher Data Message -->
+    <div class="no-data-message" *ngIf="!loading && publisherData.length === 0">
+      <p>No detailed publisher data available for this action.</p>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="error">
+      <p>Error loading publisher data: {{ error }}</p>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="close()">Close</button>
+  </mat-dialog-actions>
+</div>
