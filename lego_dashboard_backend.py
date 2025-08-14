@@ -19,6 +19,9 @@ curl "http://localhost:8080/api/topactions?date=2025-07-26&group=Republican"
 
 # Get actions for a specific publisher
 curl "http://localhost:8080/api/topactions?date=2025-07-26&publisher=pub_dem_0"
+
+# Get publishers (coverage and support) for a specific action
+curl "http://localhost:8080/api/actions/action-a?date=2025-07-26"  
 """
 
 import json
